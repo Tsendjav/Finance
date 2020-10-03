@@ -12,7 +12,6 @@ var uiController = (function () {
     expenseLabel: ".budget__expenses--value",
     huviLabel: ".budget__expenses--percentage",
     containerDiv: ".container",
-    incPercentageLabel: ".item__percentage",
     expPercentageLabel: ".item__percentage",
     dateLabel: ".budget__title--month",
   };
@@ -50,6 +49,22 @@ var uiController = (function () {
       document.querySelector(DOMstrings.dateLabel).textContent =
         unuudur.getFullYear() + " оны " + unuudur.getMonth() + " сар";
     },
+
+    changeType: function () {
+      var fields = document.querySelectorAll(
+        DOMstrings.inputType +
+          ", " +
+          DOMstrings.inputDescription +
+          ", " +
+          DOMstrings.inputValue
+      );
+
+      nodeListForeach(fields, function (el) {
+        el.classList.toggle("red-focus");
+      });
+      document.querySelector(DOMstrings.addBtn).classList.toggle("red");
+    },
+
     getInput: function () {
       return {
         type: document.querySelector(DOMstrings.inputType).value,
@@ -315,6 +330,11 @@ var appController = (function (uiController, financeController) {
         ctrlAddItem();
       }
     });
+
+    document
+      .querySelector(DOM.inputType)
+      .addEventListener("change", uiController.changeType);
+
     document
       .querySelector(DOM.containerDiv)
       .addEventListener("click", function (event) {
